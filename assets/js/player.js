@@ -17,31 +17,55 @@ const lyricsButton = document.getElementById("lyrics-button");
 const pfpImage = document.getElementById("dc-pfp");
 
 const API_URL = "https://api.wxrn.lol/api/lyrics";
-const defaultFooterText = "〤 #0pium 〤";
+const defaultFooterText = "𐕣 0ᴘɪᴜᴍ 𐕣";
 
 const tracks = [
   {
     title: "Destroy Lonely - if looks could kill",
     path: "assets/music/iflookscouldkill.mp3",
   },
+  {
+    title: "Yeat - bigger thën everything",
+    path: "assets/music/BiggerThenEverything.mp3",
+  },
+  { title: "Playboi Carti - 24 Songs", path: "assets/music/24Songs.mp3" },
+  { title: "Yeat - Power Trip", path: "assets/music/PowerTrip.mp3" },
+  { title: "Yeat - Heavy stunts", path: "assets/music/HeavyStunts.mp3" },
+  { title: "Yeat - Tell më", path: "assets/music/TellMe.mp3" },
   { title: "Destroy Lonely - how u feel?", path: "assets/music/HowUFeel.mp3" },
+  { title: "Yeat - Luv monëy", path: "assets/music/LuvMoney.mp3" },
   { title: "Ken Carson - Succubus", path: "assets/music/Succubus.mp3" },
+  { title: "Yeat - Shade", path: "assets/music/Shade.mp3" },
   { title: "Ken Carson - Green Room", path: "assets/music/GreenRoom.mp3" },
   { title: "Ken Carson - Lose It", path: "assets/music/LoseIt.mp3" },
   { title: "che - GET NAKED", path: "assets/music/GetNaked.mp3" },
   { title: "Playboi Carti - Fell In Luv", path: "assets/music/FellInLuv.mp3" },
+  {
+    title: "Trippie Redd x Summrs - BIGGEST BIRD",
+    path: "assets/music/BiggestBird.mp3",
+  },
+  { title: "Yeat - No morë talk", path: "assets/music/NoMoreTalk.mp3" },
+  { title: "Yeat - Talk", path: "assets/music/Talk.mp3" },
+  { title: "Yeat - Already Rich", path: "assets/music/AlreadyRich.mp3" },
   { title: "Destroy Lonely - THRILL", path: "assets/music/THRILL.mp3" },
+  { title: "Yeat - GEEK TIMË", path: "assets/music/GeekTime.mp3" },
   { title: "Ken Carson - loading", path: "assets/music/Loading.mp3" },
+  { title: "Yeat - Bad bënd / DëMON", path: "assets/music/BadBend.mp3" },
   { title: "Ken Carson - Hardcore", path: "assets/music/Hardcore.mp3" },
   { title: "Che - I Rot, I Rot", path: "assets/music/IRotIRot.mp3" },
+  { title: "Yeat - GO2WORK", path: "assets/music/GO2WORK.mp3" },
   { title: "Ken Carson - Rock N Roll", path: "assets/music/RockNRoll.mp3" },
   { title: "Ken Carson - Overseas", path: "assets/music/Overseas.mp3" },
   { title: "Ken Carson - Nightcore 2", path: "assets/music/Nightcore2.mp3" },
+  { title: "yuke - my bad", path: "assets/music/mybad.mp3" },
+  { title: "yuke - RRegret", path: "assets/music/RRegret.mp3" },
   {
     title: "OsamaSon - ik what you did last summer",
     path: "assets/music/ikwydls.mp3",
   },
+  { title: "OsamaSon - Baghdad", path: "assets/music/Baghdad.mp3" },
   { title: "OsamaSon - Troops", path: "assets/music/Troops.mp3" },
+  { title: "OsamaSon - X & Sex", path: "assets/music/X&Sex.mp3" },
   { title: "OsamaSon - Freestyle", path: "assets/music/Freestyle.mp3" },
   { title: "OsamaSon - Frontin", path: "assets/music/Frontin.mp3" },
 ];
@@ -250,59 +274,39 @@ async function displayLyrics(songName, artistName, audioPlayer, lyricsDisplay) {
           prevLine.className = "lyric-line previous";
           prevLine.textContent = lyricsArray[currentIndex - 1].lyrics;
           lyricsWrapper.appendChild(prevLine);
+
+          // Trigger reflow to restart animation
+          void prevLine.offsetWidth;
+          prevLine.classList.add("slide-in");
+          prevLine.addEventListener("animationend", () => {
+            prevLine.classList.remove("slide-in");
+          });
         }
 
         const currentLine = document.createElement("div");
-        currentLine.className = "lyric-line highlight slide-in";
+        currentLine.className = "lyric-line highlight";
         currentLine.textContent = lyricsArray[currentIndex].lyrics;
         lyricsWrapper.appendChild(currentLine);
 
+        // Trigger reflow to restart animation
+        void currentLine.offsetWidth;
+        currentLine.classList.add("slide-in");
+        currentLine.addEventListener("animationend", () => {
+          currentLine.classList.remove("slide-in");
+        });
+
         if (currentIndex < lyricsArray.length - 1) {
           const nextLine = document.createElement("div");
-          nextLine.className = "lyric-line next slide-in";
+          nextLine.className = "lyric-line next";
           nextLine.textContent = lyricsArray[currentIndex + 1].lyrics;
           lyricsWrapper.appendChild(nextLine);
-        }
 
-        lyricsWrapper.style.display = "block";
-        const lyricsContainer = lyricsDisplay.querySelector(".lyrics-wrapper");
-        const targetPosition =
-          currentLine.offsetTop -
-          lyricsContainer.offsetHeight / 2 +
-          currentLine.offsetHeight / 2;
-
-        lyricsContainer.style.overflowY = "auto";
-        lyricsContainer.style.scrollBehavior = "smooth";
-
-        lyricsContainer.scrollTop = targetPosition;
-
-        setTimeout(() => {
-          const currentPos = lyricsContainer.scrollTop;
-          if (Math.abs(currentPos - targetPosition) > 5) {
-            const startPosition = currentPos;
-            const distance = targetPosition - startPosition;
-            const duration = 600;
-            let startTime = null;
-
-            const animateScroll = (timestamp) => {
-              if (!startTime) startTime = timestamp;
-              const progress = timestamp - startTime;
-              const percentage = Math.min(progress / duration, 1);
-
-              lyricsContainer.scrollTop =
-                startPosition + distance * easeInOutQuad(percentage);
-
-              if (progress < duration) {
-                window.requestAnimationFrame(animateScroll);
-              }
-            };
-
-            window.requestAnimationFrame(animateScroll);
-          }
-        }, 50);
-
-        function easeInOutQuad(t) {
-          return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+          // Trigger reflow to restart animation
+          void nextLine.offsetWidth;
+          nextLine.classList.add("slide-in");
+          nextLine.addEventListener("animationend", () => {
+            nextLine.classList.remove("slide-in");
+          });
         }
       }
     };
@@ -323,6 +327,7 @@ lyricsCloseBtn.addEventListener("click", () => {
   mainContent.classList.remove("no-click");
   overlay.style.display = "block";
   overlay.classList.remove("show");
+  stopVisualizer();
   setTimeout(() => {
     lyricsPopup.style.display = "none";
     overlay.style.display = "none";
@@ -334,6 +339,7 @@ lyricsButton.addEventListener("click", () => {
   overlay.style.display = "block";
   mainContent.classList.add("no-click");
   lyricsPopup.classList.add("show");
+  startVisualizer();
   overlay.classList.add("show");
 });
 
@@ -342,6 +348,7 @@ footer.addEventListener("click", () => {
   overlay.style.display = "block";
   mainContent.classList.add("no-click");
   lyricsPopup.classList.add("show");
+  startVisualizer();
   overlay.classList.add("show");
 });
 
@@ -494,4 +501,85 @@ async function extractMetadata(filePath) {
       },
     });
   });
+}
+
+let audioContext, analyser, sourceNode, visualizerCanvas, canvasCtx;
+let visualizerInitialized = false;
+let animationId = null;
+
+function setupVisualizer() {
+  if (visualizerInitialized) return;
+
+  visualizerCanvas = document.getElementById("visualizer");
+  if (!visualizerCanvas) return;
+
+  canvasCtx = visualizerCanvas.getContext("2d");
+
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  analyser = audioContext.createAnalyser();
+  analyser.fftSize = 64;
+
+  sourceNode = audioContext.createMediaElementSource(audioPlayer);
+  sourceNode.connect(analyser);
+  analyser.connect(audioContext.destination);
+
+  visualizerInitialized = true;
+}
+
+function drawVisualizer() {
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  analyser.getByteFrequencyData(dataArray);
+
+  canvasCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
+
+  const barCount = 64;
+  const mirroredBars = Math.floor(barCount / 2);
+  const centerX = visualizerCanvas.width / 2;
+  const barWidth = (visualizerCanvas.width / barCount) * 0.7;
+  const gap = (visualizerCanvas.width / barCount) * 0.3;
+
+  const textColor = getComputedStyle(document.documentElement)
+    .getPropertyValue("--text-color")
+    .trim();
+
+  for (let i = 0; i < mirroredBars; i++) {
+    const value = dataArray[bufferLength - 1 - i];
+    const barHeight = (value / 255) * visualizerCanvas.height;
+
+    const xLeft = centerX - (i + 1) * (barWidth + gap);
+    const xRight = centerX + i * (barWidth + gap);
+
+    canvasCtx.fillStyle = textColor;
+
+    canvasCtx.fillRect(
+      xLeft,
+      visualizerCanvas.height - barHeight,
+      barWidth,
+      barHeight
+    );
+    canvasCtx.fillRect(
+      xRight,
+      visualizerCanvas.height - barHeight,
+      barWidth,
+      barHeight
+    );
+  }
+
+  animationId = requestAnimationFrame(drawVisualizer);
+}
+
+function startVisualizer() {
+  setupVisualizer();
+  if (audioContext && audioContext.state === "suspended") {
+    audioContext.resume();
+  }
+  cancelAnimationFrame(animationId);
+  drawVisualizer();
+}
+
+function stopVisualizer() {
+  if (animationId) cancelAnimationFrame(animationId);
+  if (canvasCtx)
+    canvasCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
 }

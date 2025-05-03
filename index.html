@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="@admiremysins" />
-    <meta property="og:description" content="“SEEYUHHHH” – Playboi Carti" />
+    <meta
+      property="og:description"
+      content="“Self-discipline begins with the mastery of your thoughts. If you don't control what you think, you can't control what you do.” – Napoleon Hill"
+    />
     <meta
       property="og:image"
       id="embed-icon"
@@ -13,6 +16,7 @@
     <meta name="theme-color" content="#808080" />
     <title>_</title>
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/themes.css" />
     <link
       rel="shortcut icon"
       id="short-icon"
@@ -28,7 +32,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsmediatags/dist/jsmediatags.min.js"></script>
 
-    <title></title>
+    <title>_</title>
   </head>
 
   <body>
@@ -81,28 +85,30 @@
       </div>
 
       <div class="flexbox">
-        <a href="https://www.instagram.com/zaulore/" target="_blank">
-          <button><i class="icon fa-brands fa-instagram"></i>@zaulore</button>
+        <a href="https://t.me/wxrned" target="_blank">
+          <button><i class="icon fa-brands fa-telegram"></i>@wxrned</button>
         </a>
-        <a href="https://www.tiktok.com/@admiremysin" target="_blank">
-          <button><i class="icon fa-brands fa-tiktok"></i>@admiremysin</button>
+        <a href="https://www.tiktok.com/@wxrn404" target="_blank">
+          <button><i class="icon fa-brands fa-tiktok"></i>@wxrn404</button>
         </a>
         <a href="discord" target="_blank">
-          <button><i class="icon fa-brands fa-discord"></i>/swatcall</button>
+          <button><i class="icon fa-brands fa-discord"></i>discord</button>
         </a>
       </div>
     </main>
 
     <div id="overlay"></div>
 
+    <canvas id="visualizer" style="display: none"></canvas>
+
     <div id="lyrics-popup">
-      <h2>〤 lyrics 〤</h2>
+      <h2>𐕣 lyrics 𐕣</h2>
       <div id="lyricsDisplay"><div class="loading"></div></div>
       <button id="lyrics-close">close</button>
     </div>
 
     <div id="popup">
-      <h2>〤 ♡ 〤</h2>
+      <h2>♡</h2>
       <ul>
         <li>
           <img src="" id="livvy" alt="693182666987536414" /><span
@@ -118,9 +124,9 @@
           >
         </li>
         <li>
-          <img src="" id="hesa" alt="1357487229638934729" /><span
+          <img src="" id="jolt" alt="823587310494810132" /><span
             class="friend-name"
-            >hesa</span
+            >jolt</span
           >
         </li>
         <li>
@@ -147,12 +153,30 @@
 
     <audio id="audio"></audio>
 
+    <div id="custom-context-menu" class="custom-context-menu">
+      <ul>
+        <li><button id="theme-switcher">switch theme</button></li>
+        <li><button id="refresh-page">refresh page</button></li>
+        <li><button id="toggle-music">toggle player</button></li>
+        <li><button id="copy-url">website url</button></li>
+        <li>
+          <a
+            href="https://api.wxrn.lol"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Powered by api.wxrn.lol</a
+          >
+        </li>
+      </ul>
+    </div>
+
     <!-- Scripts -->
     <script src="assets/js/inspect.js"></script>
     <script src="assets/js/title.js"></script>
     <script src="assets/js/views.js"></script>
-    <script src="assets/js/popup.js"></script>
+    <script src="assets/js/click.js"></script>
     <script src="assets/js/loadAssets.js"></script>
     <script src="assets/js/player.js"></script>
+    <script src="assets/js/popup.js"></script>
   </body>
 </html>

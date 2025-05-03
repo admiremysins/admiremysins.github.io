@@ -5,7 +5,10 @@ function get_viewers_ip(json) {
     document.getElementById("check-p").innerHTML =
       "vpn/proxy detected.<br>click to enter.";
     document.getElementById("entry-overlay").style.display = "flex";
-    window.addEventListener("click", enterSite);
+    window.addEventListener("click", () => {
+      countViews();
+      enterSite();
+    });
   } else {
     countViews(ip);
     enterSite();
@@ -32,7 +35,7 @@ function countViews(ip) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-api-key": "97433ede93b8f18c9a4c24698aeb2c36",
+      "x-api-key": "d31e48dc475e0cc703c4a1a063415e8a",
     },
     body: JSON.stringify({
       ip: ip,

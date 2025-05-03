@@ -2,6 +2,47 @@
 
 @import url(variables.css);
 
+#custom-context-menu {
+  position: fixed;
+  z-index: 10000;
+  background-color: var(--btn-bg);
+  border: var(--btn-border);
+  border-radius: 8px;
+  padding: 5px 0;
+  display: none;
+  min-width: 180px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-family: monospace;
+  user-select: none;
+}
+
+#custom-context-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#custom-context-menu ul li {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: var(--btn-color);
+  transition: background-color 0.2s ease-in-out;
+}
+
+#custom-context-menu ul li:hover,
+#custom-context-menu ul li a:hover {
+  background-color: var(--btn-hover-bg);
+  color: var(--text-color-light);
+  text-decoration: none;
+}
+
+#custom-context-menu ul li a {
+  color: var(--btn-color);
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}
+
 @-webkit-keyframes fadeIn {
   0% {
     opacity: 0;
@@ -66,7 +107,7 @@ html {
 main {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease;
 }
 
 main.fade-in {
@@ -94,9 +135,11 @@ img {
   font-size: clamp(25px, 8vw, 30px);
   margin-top: 12px;
   margin-bottom: 6px;
+  padding-top: 6px;
 }
 
 #footer {
+  cursor: pointer;
   color: var(--text-color-light);
   font-size: clamp(12px, 8vw, 20px);
   margin-bottom: 10px;
@@ -124,9 +167,7 @@ button {
   padding: 15px;
   font-size: clamp(18px, 2vw, 20px);
   color: var(--btn-color);
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
   font-family: monospace;
   margin: 5px;
   transition: all 0.2s ease-in-out;
@@ -149,9 +190,7 @@ a {
   font-style: normal;
   border: 2px dashed;
   color: var(--icon-color);
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
   transition: all 0.2s ease-in-out;
   border-radius: 50%;
   background-color: var(--icon-bg);
@@ -180,16 +219,12 @@ button:hover {
   padding: 10px 15px;
   margin: 10px 2px;
   border-radius: 5px;
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
   font-size: 16px;
 }
 
 .music-player input {
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
 }
 
 .music-player button:focus {
@@ -201,9 +236,7 @@ button:hover {
 }
 
 #dc-pfp {
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
 }
 
 #dc-pfp,
@@ -221,21 +254,33 @@ a:hover,
   clip-path: none !important;
 }
 
+#avatar-container {
+  border: none !important;
+  background-color: transparent !important;
+}
+
+#avatar-container img {
+  border: none !important;
+  background-color: transparent !important;
+}
+
 #avatar-decoration {
   position: absolute !important;
   top: -10%;
-  /* Adjust as needed */
   left: -10%;
   width: 120%;
   height: 120%;
   z-index: 9980 !important;
   pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* Ensure avatar is positioned correctly */
+#avatar-decoration.fade-out {
+  opacity: 0;
+}
+
 #avatar-container {
   position: relative;
-  /* Keeps avatar in place */
   display: inline-block;
 }
 
@@ -278,9 +323,7 @@ a:hover,
   color: var(--text-color);
   text-decoration: none;
   font-size: 22px;
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
   transition: color 0.3s ease-in-out;
 }
 
@@ -310,9 +353,7 @@ a:hover,
   height: 12px;
   background: var(--text-color-light);
   border-radius: 50%;
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
   transition: background 0.3s ease-in-out;
 }
 
@@ -325,9 +366,7 @@ a:hover,
   height: 12px;
   background: var(--text-color-light);
   border-radius: 50%;
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
   transition: background 0.3s ease-in-out;
 }
 
@@ -420,9 +459,7 @@ a:hover,
   padding: 10px;
   color: var(--btn-color);
   font-size: 18px;
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   margin-top: 20px;
@@ -454,6 +491,13 @@ a:hover,
   overflow: hidden;
 }
 
+#lyrics-popup.show {
+  display: block;
+  pointer-events: auto;
+  z-index: 9991;
+  opacity: 1;
+}
+
 #lyricsDisplay {
   display: flex;
   text-align: center;
@@ -469,11 +513,53 @@ a:hover,
   overflow-y: auto;
 }
 
-#lyrics-popup.show {
-  display: block;
-  pointer-events: auto;
-  z-index: 9991;
-  opacity: 1;
+.slide-in {
+  animation: slideIn 0.5s ease forwards;
+}
+
+.previous.slide-in,
+.next.slide-in {
+  animation-name: slideInNoOpacity;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInNoOpacity {
+  from {
+    transform: translateY(30px);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+}
+
+.slide-out {
+  animation: slideOut 0.5s ease forwards;
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
 }
 
 .loading {
@@ -495,7 +581,7 @@ a:hover,
 }
 
 .loading::after {
-  content: '';
+  content: "";
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -529,9 +615,7 @@ a:hover,
   padding: 10px;
   color: var(--btn-color);
   font-size: 18px;
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   margin-top: 20px;
@@ -552,6 +636,12 @@ a:hover,
   justify-content: center;
   position: fixed;
   transition: transform 0.5s ease-in-out;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.lyrics-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .lyric-line {
@@ -710,39 +800,24 @@ a:hover,
 
 #volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-
   appearance: none;
-
   width: 20px;
-
   height: 20px;
-
   background: var(--accent-color);
-
   border-radius: 50%;
-
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
 }
 
 #volume-slider::-moz-range-thumb {
   width: 20px;
-
   height: 20px;
-
   background: var(--accent-color);
-
   border-radius: 50%;
-
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
+  cursor: pointer;
 }
 
 #volume-slider::-moz-range-track {
   background: var(--btn-border-color);
-
   height: 8px;
 }
 
@@ -752,68 +827,40 @@ a:hover,
 
 .controls button {
   position: relative;
-
   z-index: 2;
-
   background-color: var(--btn-bg);
-
   border: var(--btn-border);
-
   padding: 10px 15px;
-
   color: var(--btn-color);
-
   border-radius: 8px;
-
   font-size: 18px;
-
-  cursor:
-    /*url('https://img.icons8.com/?size=16&id=83171&format=png'),*/
-    pointer;
-
+  cursor: pointer;
   transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out,
     box-shadow 0.3s ease-in-out;
-
   display: flex;
-
   align-items: center;
 }
 
 .controls button:hover {
   background-color: var(--btn-hover-bg);
-
   box-shadow: 0 0 15px var(--accent-color);
 }
 
 .view-counter {
   position: fixed;
-
   top: 10px;
-
   left: 10px;
-
   background-color: var(--btn-bg);
-
   border: var(--btn-border);
-
   color: var(--text-color-light);
-
   font-family: monospace;
-
   padding: 10px 20px;
-
   border-radius: 5px;
-
   font-size: clamp(16px, 2vw, 18px);
-
   text-align: center;
-
   z-index: 100;
-
   transition: all 0.2s ease-in-out;
-
   cursor: default;
-
   display: inline-block;
 }
 
@@ -909,4 +956,17 @@ a:hover,
   .music-player i {
     font-size: 18px;
   }
+}
+
+#visualizer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 32%;
+  background-color: transparent;
+  z-index: 9990;
+  display: none;
+  opacity: 0.75;
+  image-rendering: auto;
 }

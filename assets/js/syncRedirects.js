@@ -1,6 +1,31 @@
 const colorThief = new ColorThief();
-const iconElement = document.getElementById("icon");
-// iconElement.crossOrigin = 'anonymous';
+
+async function fetchAndApplyIcon() {
+  try {
+    const response = await fetch(
+      "https://api.wxrn.lol/discord/invite/c6AyjQggyy"
+    );
+    const data = await response.json();
+
+    const iconUrl = data.icon;
+    if (!iconUrl) {
+      console.error("No icon URL found in response");
+      return;
+    }
+
+    const iconElement = new Image();
+    iconElement.crossOrigin = "Anonymous";
+    iconElement.src = iconUrl;
+
+    iconElement.onload = () => {
+      applyColorsFromImage(iconElement);
+    };
+
+    document.body.appendChild(iconElement);
+  } catch (error) {
+    console.error("Failed to fetch icon data:", error);
+  }
+}
 
 function applyColorsFromImage(imgElement) {
   if (!imgElement.complete) {
@@ -19,19 +44,24 @@ function applyColorsFromImage(imgElement) {
     const dominantColor = colorThief.getColor(canvas);
     const dominantColorRgb = `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`;
 
+    const textColor = adjustColorBrightness(dominantColorRgb, 80);
+    const lighterTextColor = adjustColorBrightness(dominantColorRgb, 100);
     document.documentElement.style.setProperty(
       "--accent-color",
       lighterTextColor
     );
-    const textColor = adjustColorBrightness(dominantColorRgb, -50);
-    const lighterTextColor = adjustColorBrightness(dominantColorRgb, 20);
-    const iconColor = dominantColorRgb;
-    document.documentElement.style.setProperty("--text-color", iconColor);
+    document.documentElement.style.setProperty(
+      "--text-color",
+      dominantColorRgb
+    );
     document.documentElement.style.setProperty(
       "--text-color-light",
       lighterTextColor
     );
-    document.documentElement.style.setProperty("--icon-color", iconColor);
+    document.documentElement.style.setProperty(
+      "--icon-color",
+      dominantColorRgb
+    );
     document.documentElement.style.setProperty(
       "--scroll-bar",
       dominantColorRgb
@@ -39,13 +69,12 @@ function applyColorsFromImage(imgElement) {
 
     const darkenedBackgroundColor = adjustColorBrightness(
       dominantColorRgb,
-      -80
+      -50
     );
     document.documentElement.style.setProperty(
       "--bg-color",
       darkenedBackgroundColor
     );
-
     document.body.style.backgroundColor = darkenedBackgroundColor;
 
     const cursorFilter = rgbToFilter(lighterTextColor);
@@ -54,13 +83,20 @@ function applyColorsFromImage(imgElement) {
       dominantColor: dominantColorRgb,
       textColor: textColor,
       lighterTextColor: lighterTextColor,
-      iconColor: iconColor,
       darkenedBackgroundColor: darkenedBackgroundColor,
       cursorFilter: cursorFilter,
     });
   } catch (error) {
     console.error("Error extracting colors from the image:", error);
   }
+}
+
+function adjustColorBrightness(rgbColor, amount) {
+  const rgb = rgbColor.match(/\d+/g).map(Number);
+  const r = Math.min(Math.max(rgb[0] + amount, 0), 255);
+  const g = Math.min(Math.max(rgb[1] + amount, 0), 255);
+  const b = Math.min(Math.max(rgb[2] + amount, 0), 255);
+  return `rgb(${r}, ${g}, ${b})`;
 }
 
 function rgbToFilter(rgbColor) {
@@ -73,12 +109,4 @@ function rgbToFilter(rgbColor) {
   )}deg)`;
 }
 
-function adjustColorBrightness(rgbColor, amount) {
-  const rgb = rgbColor.match(/\d+/g).map(Number);
-  const r = Math.min(Math.max(rgb[0] + amount, 0), 255);
-  const g = Math.min(Math.max(rgb[1] + amount, 0), 255);
-  const b = Math.min(Math.max(rgb[2] + amount, 0), 255);
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-iconElement.onload = applyColorsFromImage(iconElement);
+fetchAndApplyIcon();
